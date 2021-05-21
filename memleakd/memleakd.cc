@@ -115,13 +115,18 @@ void *operator new[](size_t size, const char *file, int line)
     return addr;
 }
 
-void operator delete(void *addr) throw()
+void operator delete(void *addr) noexcept
 {
     free(addr);
     memleakd::_single_news.remove(addr);
 }
 
-void operator delete[](void *addr) throw()
+void operator delete(void *addr, std::size_t size) noexcept
+{
+    operator delete(addr);
+}
+
+void operator delete[](void *addr) noexcept
 {
     free(addr);
     memleakd::_array_news.remove(addr);

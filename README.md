@@ -13,7 +13,8 @@ int main()
     matrix[0] = new int[2];
     matrix[1] = new int[2];
 
-    delete matrix;
+    delete[] matrix[0];
+    delete matrix[1];
 
     return 0;
 }
@@ -30,13 +31,12 @@ Output of running `foo`:
 ```
 Memory leak at <Unknown>:0
 Memory leak at <Unknown>:0
-Memory leak at <Unknown>:0
 ```
 
 To locate the leak at source level, `#include` `"memleakd.h"` in your sources (right after the standard headers):
 
 ```
-#include <memleakd.h>
+#include "memleakd.h"
 
 int main()
 {
@@ -46,7 +46,6 @@ Then the output for the above program would be:
 
 ```
 Memory leak at foo.cc:7
-Memory leak at foo.cc:6
 Memory leak at foo.cc:5
 ```
 
